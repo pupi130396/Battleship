@@ -19,7 +19,7 @@ import android.widget.Toast;
 /**
  * @author Oscar Ivan Ricaud
  * @version 1.0
- * Last update: 02/23/2017
+ * Last update: 02/24/2017
  */
 public class GameActivity extends AppCompatActivity {
     private Board board;
