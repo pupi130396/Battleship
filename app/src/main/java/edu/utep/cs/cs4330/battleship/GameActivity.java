@@ -15,11 +15,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.LinkedList;
+import java.util.Random;
+
 // Controller
 /**
  * @author Oscar Ivan Ricaud
  * @version 1.0
- * Last update: 02/24/2017
+ * Last update: 02/23/2017
  */
 public class GameActivity extends AppCompatActivity {
     private Board board;
@@ -27,6 +30,8 @@ public class GameActivity extends AppCompatActivity {
     private int countShots = 0;
     private MediaPlayer mp;
     private TextView counter;
+    private LinkedList<Integer> xUserPlace = new LinkedList<>();
+    private LinkedList<Integer> yUserPlace = new LinkedList<>();
 
     /** This is the main controller class and handles the creation of multiple ships and board.
      //    *  @see Ship.java
@@ -144,6 +149,7 @@ public class GameActivity extends AppCompatActivity {
                     toast("That was close!");
                     makeMissedSound();
                 }
+                makeComputerShot();
             }
         });
 
@@ -221,6 +227,21 @@ public class GameActivity extends AppCompatActivity {
         quitButton.setTypeface(typeface);
     }
 
+    private void makeComputerShot(){
+        PlaceboatActivity pa = new PlaceboatActivity();
+        xUserPlace = pa.xPlace;
+        yUserPlace = pa.yPlace;
+        Random rd = new Random();
+        int randXCoor = rd.nextInt(10 - 0) + 0;
+        int randYCoor = rd.nextInt(10 - 0) + 0;
+        for(int i = 0; i < xUserPlace.size(); i++){
+            if(randXCoor == xUserPlace.get(i) && randYCoor == yUserPlace.get(i))
+                toast("Gomputer Hit your boat!");
+            else{
+                toast("Computer miss!");
+            }
+        }
+    }
     /**
      * @param coordinates are the coordinates from the user.
      * @param x is the number of rows - 1.

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import java.util.LinkedList;
 
 /**
  * Created by oscarricaud on 3/12/17.
@@ -23,6 +23,9 @@ public class PlaceboatActivity  extends Activity {
     private Button next;
     private Button quit;
     private ViewGroup rootLayout;
+    protected LinkedList<Integer> xPlace = new LinkedList<>();
+    protected LinkedList<Integer> yPlace = new LinkedList<>();
+    private int boatSize = 5;
     private int _xDelta;
     private int _yDelta;
 
@@ -34,7 +37,7 @@ public class PlaceboatActivity  extends Activity {
     }
 
     /**
-     * This method creates buttons and drag & drop feature the user uses to place boats on grid.
+     * This method creates buttons and drag & drop feauture the user uses to place boats on grid.
      */
     private void setEverything() {
         title = (TextView) findViewById(R.id.placeboats); // PLACE BOATS
@@ -112,6 +115,7 @@ public class PlaceboatActivity  extends Activity {
         next.setTypeface(typeface);
         quit.setTypeface(typeface);
     }
+
     /**
      * The drag and drop feature
      */
@@ -126,7 +130,6 @@ public class PlaceboatActivity  extends Activity {
                 case MotionEvent.ACTION_DOWN:
                     _xDelta = X;
                     _yDelta = Y;
-                    Log.w("_xDelta", String.valueOf(_xDelta));
                 break;
                 case MotionEvent.ACTION_UP:
                     break;
@@ -137,12 +140,22 @@ public class PlaceboatActivity  extends Activity {
                 case MotionEvent.ACTION_MOVE:
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
                     layoutParams.leftMargin = X;
+                    addplacedShip(X,'x',boatSize);
                     layoutParams.topMargin = Y;
+                    addplacedShip(Y,'y', boatSize);
                     view.setLayoutParams(layoutParams);
                     break;
             }
             rootLayout.invalidate();
             return true;
         }
+    }
+
+    private void addplacedShip(int location, char flag, int boatSize){
+        if(flag == 'x')
+            for(int i = boatSize; i > 1; i--)
+                xPlace.add(location + i);
+        if(flag == 'y')
+            yPlace.add(location);
     }
 }
